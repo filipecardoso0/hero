@@ -17,7 +17,7 @@ public class Game {
 
     public Game(){
         try{
-        TerminalSize terminalSize = new TerminalSize(1280, 720);
+        TerminalSize terminalSize = new TerminalSize(200, 60);
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
         Terminal terminal = terminalFactory.createTerminal();
         screen = new TerminalScreen(terminal);
@@ -32,6 +32,14 @@ public class Game {
             screen.setCursorPosition(null); // we don't need a cursor
             screen.startScreen(); // screens must be started
             screen.doResizeIfNecessary(); // resize screen if necessary
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void closeTerminal() {
+        try{
+            screen.close(); // screens must be started
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -54,13 +62,16 @@ public class Game {
             try{
             KeyStroke key = screen.readInput();
             processKey(key);
+            if (processKey(key) == 0) {
+                break;
+            }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void processKey(KeyStroke key) {
+    private int processKey(KeyStroke key) {
         switch (key.getKeyType()) {
             case ArrowUp:
                 System.out.println("Primiu tecla -> Seta para cima");
@@ -70,19 +81,33 @@ public class Game {
             {
                 System.out.println("Primiu tecla -> Seta para baixo");
                 screen.setCharacter(x-10, y, TextCharacter.fromCharacter('X')[0]);
+                break;
             }
             case ArrowLeft:
             {
                 System.out.println("Primiu tecla -> Seta para esquerda");
                 screen.setCharacter(x, y-10, TextCharacter.fromCharacter('X')[0]);
+                break;
             }
             case ArrowRight:
             {
                 System.out.println("Primiu tecla -> Seta para direita");
                 screen.setCharacter(x, y+10, TextCharacter.fromCharacter('X')[0]);
+                break;
             }
-            default:
+           default:
+                System.out.println("Primiu tecla -> Not Assigned");
                 break;
         }
+
+        if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q')   {
+            closeTerminal();
+        }
+
+        if (key.getKeyType() == KeyType.EOF) {
+            return 0;
+        }
+
+        return -1;
     }
 }
