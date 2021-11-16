@@ -11,9 +11,12 @@ import java.io.IOException;
 
 public class Game {
     private Screen screen;
-    private int x = 10;
-    private int y = 10;
 
+    public Screen getScreen(){
+        return screen;
+    }
+
+    Hero hero = new Hero(10, 10);
 
     public Game(){
         try{
@@ -45,24 +48,20 @@ public class Game {
         }
     }
 
-    public void draw() {
-        try {
-            screen.clear();
-            screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
-            screen.refresh();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void draw(int x, int y) throws IOException{
+        screen.clear();
+        hero.draw(screen);
+        screen.refresh();
     }
 
     public void run() {
         createTerminal();
-        draw();
         while (true){
             try{
+            draw(hero.getX(), hero.getY());
             KeyStroke key = screen.readInput();
             processKey(key);
-            if (processKey(key) == 0) {
+            if (key.getKeyType() == KeyType.EOF) {
                 break;
             }
             } catch (IOException e) {
@@ -71,32 +70,40 @@ public class Game {
         }
     }
 
-    private int processKey(KeyStroke key) {
+    private void processKey(KeyStroke key) throws IOException{
         switch (key.getKeyType()) {
             case ArrowUp:
-                System.out.println("Primiu tecla -> Seta para cima");
-                screen.setCharacter(x+10, y, TextCharacter.fromCharacter('X')[0]);
+                System.out.println("Pressed Key -> Arrow Up");
+                hero.moveUp();
+                draw(hero.getX(), hero.getY());
+                //screen.setCharacter((hero.getX())+10, (hero.getY()), TextCharacter.fromCharacter('X')[0]);
                 break;
             case ArrowDown:
             {
-                System.out.println("Primiu tecla -> Seta para baixo");
-                screen.setCharacter(x-10, y, TextCharacter.fromCharacter('X')[0]);
+                System.out.println("Pressed Key -> Arrow Down");
+                hero.moveDown();
+                draw(hero.getX(), hero.getY());
+                //screen.setCharacter((hero.getX())-10, (hero.getY()), TextCharacter.fromCharacter('X')[0]);
                 break;
             }
             case ArrowLeft:
             {
-                System.out.println("Primiu tecla -> Seta para esquerda");
-                screen.setCharacter(x, y-10, TextCharacter.fromCharacter('X')[0]);
+                System.out.println("Pressed Key -> Left Arrow");
+                hero.moveLeft();
+                draw(hero.getX(), hero.getY());
+                //screen.setCharacter((hero.getX()), (hero.getY())-10, TextCharacter.fromCharacter('X')[0]);
                 break;
             }
             case ArrowRight:
             {
-                System.out.println("Primiu tecla -> Seta para direita");
-                screen.setCharacter(x, y+10, TextCharacter.fromCharacter('X')[0]);
+                System.out.println("Pressed Key -> Right Arrow");
+                hero.moveRight();
+                draw(hero.getX(), hero.getY());
+                //screen.setCharacter((hero.getX()), (hero.getY())+10, TextCharacter.fromCharacter('X')[0]);
                 break;
             }
            default:
-                System.out.println("Primiu tecla -> Not Assigned");
+                System.out.println("Pressed Key -> Not Assigned");
                 break;
         }
 
@@ -104,10 +111,5 @@ public class Game {
             closeTerminal();
         }
 
-        if (key.getKeyType() == KeyType.EOF) {
-            return 0;
-        }
-
-        return -1;
     }
 }
