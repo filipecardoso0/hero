@@ -5,52 +5,36 @@ import java.io.IOException;
 
 public class Hero {
 
-    private int x, y;
+    Position position;
 
-    Hero(int x, int y) {
-        this.x = x;
-        this.y = y;
+    Hero(int x, int y){
+        position = new Position(0,0); //We need to create a position Object and give it some values otherwise the code will break once we have a null Position x & y coordinates
+        this.position.setX(x);
+        this.position.setY(y);
     }
 
-    public void Hero(){
-        Hero hero = new Hero(10, 10);
+    public void setPosition(Position position){
+        this.position.setX(position.getX());
+        this.position.setY(position.getY());
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public Position moveUp(){
+        return new Position(position.getX(), position.getY() - 1);
     }
 
-    public void setY(int u) {
-        this.x = y;
+    public Position moveDown(){
+        return new Position(position.getX(), position.getY() + 1);
     }
 
-    public int getX() {
-        return x;
+    public Position moveRight(){
+        return new Position(position.getX() + 1, position.getY());
     }
 
-    public int getY() {
-        return y;
-    }
-
-    public void moveUp(){
-        this.y = this.y -1;
-        System.out.println(y);
-    }
-
-    public void moveDown(){
-        this.y = this.y +1;
-        System.out.println(y);
-    }
-
-    public void moveRight(){
-        this.x = this.x +1;
-    }
-
-    public void moveLeft(){
-        this.x = this.x -1;
+    public Position moveLeft(){
+        return new Position(position.getX() - 1, position.getY());
     }
 
     public void draw(Screen screen) throws IOException {
-        screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
+        screen.setCharacter(this.position.getX(), this.position.getY(), TextCharacter.fromCharacter('X')[0]);
     }
 }

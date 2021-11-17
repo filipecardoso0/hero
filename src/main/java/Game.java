@@ -20,10 +20,10 @@ public class Game {
 
     public Game(){
         try{
-        TerminalSize terminalSize = new TerminalSize(200, 60);
-        DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
-        Terminal terminal = terminalFactory.createTerminal();
-        screen = new TerminalScreen(terminal);
+            TerminalSize terminalSize = new TerminalSize(200, 60);
+            DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
+            Terminal terminal = terminalFactory.createTerminal();
+            screen = new TerminalScreen(terminal);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,12 +58,12 @@ public class Game {
         createTerminal();
         while (true){
             try{
-            draw(hero.getX(), hero.getY());
-            KeyStroke key = screen.readInput();
-            processKey(key);
-            if (key.getKeyType() == KeyType.EOF) {
-                break;
-            }
+                draw(hero.position.getX(), hero.position.getY());
+                KeyStroke key = screen.readInput();
+                processKey(key);
+                if (key.getKeyType() == KeyType.EOF) {
+                    break;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -74,35 +74,31 @@ public class Game {
         switch (key.getKeyType()) {
             case ArrowUp:
                 System.out.println("Pressed Key -> Arrow Up");
-                hero.moveUp();
-                draw(hero.getX(), hero.getY());
-                //screen.setCharacter((hero.getX())+10, (hero.getY()), TextCharacter.fromCharacter('X')[0]);
+                moveHero(hero.moveUp());
+                draw(hero.position.getX(), hero.position.getY());
                 break;
             case ArrowDown:
             {
                 System.out.println("Pressed Key -> Arrow Down");
-                hero.moveDown();
-                draw(hero.getX(), hero.getY());
-                //screen.setCharacter((hero.getX())-10, (hero.getY()), TextCharacter.fromCharacter('X')[0]);
+                moveHero(hero.moveDown());
+                draw(hero.position.getX(), hero.position.getY());
                 break;
             }
             case ArrowLeft:
             {
                 System.out.println("Pressed Key -> Left Arrow");
-                hero.moveLeft();
-                draw(hero.getX(), hero.getY());
-                //screen.setCharacter((hero.getX()), (hero.getY())-10, TextCharacter.fromCharacter('X')[0]);
+                moveHero(hero.moveLeft());
+                draw(hero.position.getX(), hero.position.getY());
                 break;
             }
             case ArrowRight:
             {
                 System.out.println("Pressed Key -> Right Arrow");
-                hero.moveRight();
-                draw(hero.getX(), hero.getY());
-                //screen.setCharacter((hero.getX()), (hero.getY())+10, TextCharacter.fromCharacter('X')[0]);
+                moveHero(hero.moveRight());
+                draw(hero.position.getX(), hero.position.getY());
                 break;
             }
-           default:
+            default:
                 System.out.println("Pressed Key -> Not Assigned");
                 break;
         }
@@ -112,4 +108,9 @@ public class Game {
         }
 
     }
+
+    private void moveHero(Position position) {
+        hero.setPosition(position);
+    }
+
 }
