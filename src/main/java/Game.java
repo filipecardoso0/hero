@@ -1,8 +1,5 @@
-import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
@@ -20,7 +17,7 @@ public class Game {
     }
 
     Hero hero = new Hero(10, 10);
-    Arena arena = new Arena (320,193, hero);
+    Arena arena = new Arena (100,40, hero);
 
     public Game(){
         try{
@@ -46,7 +43,7 @@ public class Game {
 
     public void closeTerminal() {
         try{
-            screen.close(); // screens must be started
+            screen.close(); // screen must be started
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -54,7 +51,7 @@ public class Game {
 
     public void draw() throws IOException{
         screen.clear();
-        arena.draw(screen);
+        arena.draw(screen.newTextGraphics()); //Calls the function responsible to draw the objects into the arena
         screen.refresh();
     }
 
@@ -62,7 +59,7 @@ public class Game {
         createTerminal();
         while (true){
             try{
-                draw();
+                draw(); //Function that draws the objects on the screen
                 KeyStroke key = screen.readInput(); //Reads the Key input
                 if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q')   { //Verifies if it was 'q'
                     closeTerminal();
@@ -70,7 +67,7 @@ public class Game {
                 if (key.getKeyType() == KeyType.EOF) { //Verifies if EOF got reached
                     break;
                 }
-                processKey(key); //If EOF wasnt reach or q not pressed then if processs the key
+                processKey(key); //If EOF wasn't reached or 'q' was not pressed then it processes the key
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -1,5 +1,5 @@
-import com.googlecode.lanterna.TerminalRectangle;
-import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.*;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
@@ -16,8 +16,17 @@ public class Arena {
         this.hero = hero;
     }
 
-    public void draw(Screen screen) throws IOException {
-        screen.setCharacter(this.hero.position.getX(), this.hero.position.getY(), TextCharacter.fromCharacter('X')[0]);
+    public void draw(TextGraphics graphics) throws IOException {
+        //Draws the Arena Background
+        graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
+        graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
+
+        /* A Way to make the game bigger
+        graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width * 2, height * 2), ' ');
+        */
+
+        //Draws Character
+        hero.draw(graphics);
     }
 
     private void moveHero(Position position) {
@@ -27,7 +36,7 @@ public class Arena {
     }
 
     private boolean canHeroMove(Position position) {
-        if(position.getX() <= width && position.getY() <= height){
+        if(position.getX() < width && position.getY() < height){
             return true;
         } else {
             return false;
