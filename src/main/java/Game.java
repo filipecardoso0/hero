@@ -1,12 +1,15 @@
+import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
-
 import com.googlecode.lanterna.input.KeyStroke;
+
 import java.io.IOException;
 
 public class Game {
@@ -17,6 +20,7 @@ public class Game {
     }
 
     Hero hero = new Hero(10, 10);
+    Arena arena = new Arena (320,193, hero);
 
     public Game(){
         try{
@@ -48,9 +52,9 @@ public class Game {
         }
     }
 
-    public void draw(int x, int y) throws IOException{
+    public void draw() throws IOException{
         screen.clear();
-        hero.draw(screen);
+        arena.draw(screen);
         screen.refresh();
     }
 
@@ -58,12 +62,15 @@ public class Game {
         createTerminal();
         while (true){
             try{
-                draw(hero.position.getX(), hero.position.getY());
-                KeyStroke key = screen.readInput();
-                processKey(key);
-                if (key.getKeyType() == KeyType.EOF) {
+                draw();
+                KeyStroke key = screen.readInput(); //Reads the Key input
+                if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q')   { //Verifies if it was 'q'
+                    closeTerminal();
+                }
+                if (key.getKeyType() == KeyType.EOF) { //Verifies if EOF got reached
                     break;
                 }
+                processKey(key); //If EOF wasnt reach or q not pressed then if processs the key
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -71,46 +78,8 @@ public class Game {
     }
 
     private void processKey(KeyStroke key) throws IOException{
-        switch (key.getKeyType()) {
-            case ArrowUp:
-                System.out.println("Pressed Key -> Arrow Up");
-                moveHero(hero.moveUp());
-                draw(hero.position.getX(), hero.position.getY());
-                break;
-            case ArrowDown:
-            {
-                System.out.println("Pressed Key -> Arrow Down");
-                moveHero(hero.moveDown());
-                draw(hero.position.getX(), hero.position.getY());
-                break;
-            }
-            case ArrowLeft:
-            {
-                System.out.println("Pressed Key -> Left Arrow");
-                moveHero(hero.moveLeft());
-                draw(hero.position.getX(), hero.position.getY());
-                break;
-            }
-            case ArrowRight:
-            {
-                System.out.println("Pressed Key -> Right Arrow");
-                moveHero(hero.moveRight());
-                draw(hero.position.getX(), hero.position.getY());
-                break;
-            }
-            default:
-                System.out.println("Pressed Key -> Not Assigned");
-                break;
-        }
-
-        if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q')   {
-            closeTerminal();
-        }
-
+        arena.processKey(key);
     }
 
-    private void moveHero(Position position) {
-        hero.setPosition(position);
-    }
 
 }

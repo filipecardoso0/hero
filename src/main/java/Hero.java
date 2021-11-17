@@ -34,7 +34,4 @@ public class Hero {
         return new Position(position.getX() - 1, position.getY());
     }
 
-    public void draw(Screen screen) throws IOException {
-        screen.setCharacter(this.position.getX(), this.position.getY(), TextCharacter.fromCharacter('X')[0]);
-    }
 }
