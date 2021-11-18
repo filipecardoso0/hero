@@ -60,7 +60,7 @@ public class Arena {
 
     private boolean canHeroMove(Position position) {
         for (Wall wall : walls) {
-            if(position.getX() == wall.position.getX() && position.getY() == wall.position.getY()){ //If hero's coordinates are equal to wall coordinates he won't be able to move
+            if(wall.getPosition().equals(position)){ //If hero's coordinates are equal to wall coordinates he won't be able to move
                 return false;
             }
         }

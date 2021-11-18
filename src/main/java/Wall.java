@@ -22,4 +22,9 @@ public class Wall {
         graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(position.getX(), position.getY()), "Z");
     }
+
+    public Position getPosition(){
+        return position;
+    }
+
 }
