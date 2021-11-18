@@ -16,8 +16,7 @@ public class Game {
         return screen;
     }
 
-    Hero hero = new Hero(10, 10);
-    Arena arena = new Arena (100,40, hero);
+    Arena arena = new Arena (100,40);
 
     public Game(){
         try{
