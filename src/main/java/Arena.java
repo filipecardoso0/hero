@@ -5,6 +5,7 @@ import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +16,7 @@ public class Arena {
     private Hero hero;
     private List<Wall> walls;
     private List<Coin> coins;
+    private List<Monster> monsters;
 
     public Arena(int width, int height){
         this.width = width;
@@ -22,6 +24,8 @@ public class Arena {
         this.hero = new Hero(10, 10);
         this.walls = createWalls();
         this.coins = createCoins();
+        this.monsters = createMonsters();
+
     }
 
     private List<Wall> createWalls() {
@@ -50,6 +54,19 @@ public class Arena {
         return coins;
     }
 
+    private List<Monster> createMonsters() {
+        Random random = new Random();
+        ArrayList<Monster> monsters = new ArrayList<>(); //Creates a new coins ArrayList object
+        for (int i = 0; i < 6; i++)
+            //Makes it impossible for the coin to spawn on top of the hero
+            if(!(((random.nextInt(width - 2) + 1) == hero.getPosition().getX()) && ((random.nextInt(height - 2) + 1 == hero.getPosition().getY())))){
+                monsters.add(new Monster(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1));
+            }
+        //Dont know how I can disable a monster from spawning on top of another one but they are not spawning on top of each other
+
+        return monsters;
+    }
+
     private List<Coin> retrieveCoins() {
        for(Coin coin : coins){ //Searches for every coin position
            if(coin.getPosition().equals(hero.getPosition())){
@@ -76,6 +93,10 @@ public class Arena {
             coin.draw(graphics);
         }
 
+        //Draws the Monsters
+        for(Monster monster : monsters){
+            monster.draw(graphics);
+        }
 
         /* A Way to make the game bigger
         graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width * 2, height * 2), ' ');
@@ -86,13 +107,23 @@ public class Arena {
     }
 
     private void moveHero(Position position) {
-        if (canHeroMove(position)){
+        if (canEntityMove(position)){
             hero.setPosition(position);
             retrieveCoins();
+            moveMonsters();
         }
     }
 
-    private boolean canHeroMove(Position position) {
+    private void moveMonsters(){
+        for(Monster monster : monsters){
+            Position monsterpos = monster.move(); //The position we want to move the monster to
+            if(canEntityMove(monsterpos)){
+                monster.setPosition(monsterpos);
+            }
+        }
+    }
+
+    private boolean canEntityMove(Position position) {
         for (Wall wall : walls) {
             if(wall.getPosition().equals(position)){ //If hero's coordinates are equal to wall coordinates he won't be able to move
                 return false;
@@ -106,27 +137,34 @@ public class Arena {
         }
     }
 
+    public boolean verifyMonsterCollisions(){
+        for(Monster monster : monsters){
+            if(monster.position.equals(hero.position)){
+                System.out.println("GAME OVER! YOU GOT EATEN BY A MONSTER");
+                return  true;
+            }
+        }
+
+        return false;
+    }
+
     public void processKey(KeyStroke key) {
         switch (key.getKeyType()) {
             case ArrowUp:
-                System.out.println("Pressed Key -> Arrow Up");
                 moveHero(hero.moveUp());
                 break;
             case ArrowDown:
             {
-                System.out.println("Pressed Key -> Arrow Down");
                 moveHero(hero.moveDown());
                 break;
             }
             case ArrowLeft:
             {
-                System.out.println("Pressed Key -> Left Arrow");
                 moveHero(hero.moveLeft());
                 break;
             }
             case ArrowRight:
             {
-                System.out.println("Pressed Key -> Right Arrow");
                 moveHero(hero.moveRight());
                 break;
             }

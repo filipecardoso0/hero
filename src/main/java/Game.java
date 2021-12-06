@@ -66,6 +66,9 @@ public class Game {
                 if (key.getKeyType() == KeyType.EOF) { //Verifies if EOF got reached
                     break;
                 }
+                if(arena.verifyMonsterCollisions()){
+                    closeTerminal();
+                }
                 processKey(key); //If EOF wasn't reached or 'q' was not pressed then it processes the key
             } catch (IOException e) {
                 e.printStackTrace();
