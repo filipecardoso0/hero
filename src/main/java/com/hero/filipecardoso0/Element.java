@@ -1,6 +1,7 @@
-import com.googlecode.lanterna.graphics.TextGraphics;
+package com.hero.filipecardoso0;
 
-import java.io.IOException;
+import com.googlecode.lanterna.graphics.TextGraphics;
+import com.hero.filipecardoso0.Position;
 
 public abstract class Element {
 

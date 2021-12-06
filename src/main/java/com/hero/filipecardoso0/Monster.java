@@ -1,6 +1,9 @@
+package com.hero.filipecardoso0;
+
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.hero.filipecardoso0.Position;
 
 import java.util.Random;
 

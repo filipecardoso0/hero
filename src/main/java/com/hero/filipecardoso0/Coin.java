@@ -1,9 +1,12 @@
+package com.hero.filipecardoso0;
+
+import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
-public class Wall extends Element {
-    public Wall(int x, int y) {
+public class Coin extends Element {
+    public Coin(int x, int y) {
         super(x, y);
     }
 
@@ -16,7 +19,8 @@ public class Wall extends Element {
     }
 
     public void draw(TextGraphics graphics) {
-        graphics.setBackgroundColor(TextColor.Factory.fromString("#FFFFFF"));
-        graphics.putString(new TerminalPosition(position.getX(), position.getY()), " ");
+        graphics.setForegroundColor(TextColor.Factory.fromString("#008C1E"));
+        graphics.enableModifiers(SGR.BOLD);
+        graphics.putString(new TerminalPosition(position.getX(), position.getY()), "C");
     }
 }

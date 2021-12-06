@@ -1,4 +1,4 @@
-import com.googlecode.lanterna.TerminalPosition;
+package com.hero.filipecardoso0;
 
 public class Position {
     private int x, y;

@@ -1,3 +1,5 @@
+package com.hero.filipecardoso0;
+
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.input.KeyType;
@@ -16,7 +18,7 @@ public class Game {
         return screen;
     }
 
-    Arena arena = new Arena (100,40);
+    Arena arena = new Arena(100,40);
 
     public Game(){
         try{

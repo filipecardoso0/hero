@@ -1,13 +1,11 @@
+package com.hero.filipecardoso0;
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
-import com.googlecode.lanterna.screen.Screen;
+import com.hero.filipecardoso0.*;
 
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -49,7 +47,7 @@ public class Arena {
             if(!(((random.nextInt(width - 2) + 1) == hero.getPosition().getX()) && ((random.nextInt(height - 2) + 1 == hero.getPosition().getY())))){
                 coins.add(new Coin(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1));
             }
-            //Dont know how I can disable a coin from spawning on top of another one but they are not spawning on top of each other
+        //Dont know how I can disable a coin from spawning on top of another one but they are not spawning on top of each other
 
         return coins;
     }
@@ -68,13 +66,13 @@ public class Arena {
     }
 
     private List<Coin> retrieveCoins() {
-       for(Coin coin : coins){ //Searches for every coin position
-           if(coin.getPosition().equals(hero.getPosition())){
-               coins.remove(coin); //Removes the coin out of the array
-               break; //We only remove a coin at a time so it wont make sense to continue looping over it. Therefore we just break out of the loop
-           }
-       }
-       return coins;
+        for(Coin coin : coins){ //Searches for every coin position
+            if(coin.getPosition().equals(hero.getPosition())){
+                coins.remove(coin); //Removes the coin out of the array
+                break; //We only remove a coin at a time so it wont make sense to continue looping over it. Therefore we just break out of the loop
+            }
+        }
+        return coins;
     }
 
 

@@ -1,3 +1,5 @@
+package com.hero.filipecardoso0;
+
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.screen.Screen;
