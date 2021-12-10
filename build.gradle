@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'groovy'
 }
 
 application {
@@ -18,7 +19,11 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     implementation group: 'com.googlecode.lanterna', name: 'lanterna', version: '3.1.1'
-
+    testImplementation 'org.mockito:mockito-core:3.7.7'
+    dependencies {
+        testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
+        testImplementation 'org.codehaus.groovy:groovy-all:3.0.8'
+    }
 }
 
 test {
